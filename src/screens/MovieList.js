@@ -8,12 +8,13 @@ import {
   Text,
   View,
   FlatList,
-
+  ScrollView
 } from 'react-native';
 
 import { ORANGE, PINK, WHITE, GRAYBG } from '../../styles';
 
-import UpcomingListItem from '../components/upcomingListItem';
+import UpcomingListItem from '../components/UpcomingListItem';
+import NowListItem from '../components/NowListItem';
 
 export default class Movielist extends Component {
   state = {
@@ -32,9 +33,13 @@ export default class Movielist extends Component {
     <UpcomingListItem data={item} />
   )
 
+  renderNowPlaying = ({item}) => (
+    <NowListItem data={item} />
+  )
+
   render() {
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           <Text style={styles.title}>MOVIES</Text>
           <FlatList 
             data={this.state.upcoming}
@@ -43,7 +48,17 @@ export default class Movielist extends Component {
             renderItem={this.renderUpcoming}
             horizontal
           />
+          <View style={styles.listcontainer}>
+            <Text>NOW</Text>
+            <FlatList
+              data={this.state.upcoming}
+              extraData={this.state}
+              keyExtractor={this.keyExtractor}
+              renderItem={this.renderNowPlaying}
+              horizontal
+          />
         </View>
+      </ScrollView>
     );
   }
 }
